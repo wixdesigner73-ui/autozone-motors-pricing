@@ -16,6 +16,16 @@ var HTML = "<div class=\"az\"><nav class=\"nav\" aria-label=\"Service categories
 function init(ROOT,HOST){
 var SC=ROOT.querySelector(".az");
 var hAttr=HOST.getAttribute("height");if(hAttr)SC.style.height=hAttr;
+function canScroll(){return SC.scrollHeight>SC.clientHeight+2}
+function fit(){
+  if(hAttr)return;
+  SC.style.height="";
+  if(canScroll())return;
+  for(var p=HOST;p&&p!==document.body&&p!==document.documentElement;p=p.parentElement){
+    var cs=getComputedStyle(p);
+    if(/(hidden|clip|auto|scroll)/.test(cs.overflowY)&&p.clientHeight>40&&p.clientHeight<SC.scrollHeight-4){SC.style.height=p.clientHeight+"px";return}
+  }
+}
 "use strict";
 
 /* ---------- Data (source: AUTO ZONE SERVICE RATES + FILTERS sheets) ---------- */
@@ -97,7 +107,10 @@ var FD=[
 
 /* ---------- Helpers ---------- */
 var $=function(s,r){return (r||ROOT).querySelector(s)};
-function scrollToEl(el){var top=el.getBoundingClientRect().top-SC.getBoundingClientRect().top+SC.scrollTop-($(".nav").offsetHeight+8);SC.scrollTo({top:Math.max(0,top),behavior:"smooth"})}
+function scrollToEl(el){
+  if(canScroll()){var top=el.getBoundingClientRect().top-SC.getBoundingClientRect().top+SC.scrollTop-($(".nav").offsetHeight+8);SC.scrollTo({top:Math.max(0,top),behavior:"smooth"})}
+  else el.scrollIntoView({behavior:"smooth",block:"start"});
+}
 var money=function(n){return "Rs. "+n.toLocaleString("en-US")};
 var CAR='<svg class="car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
 var BODY={
@@ -352,15 +365,20 @@ function spy(){
   var navH=$(".nav").offsetHeight+16,cur=null;
   chips.forEach(function(c){
     var el=ROOT.getElementById(c.dataset.t);
-    if(el&&el.offsetParent!==null&&el.getBoundingClientRect().top-SC.getBoundingClientRect().top<=navH+4)cur=c;
+    if(el&&el.offsetParent!==null&&el.getBoundingClientRect().top-(canScroll()?SC.getBoundingClientRect().top:0)<=navH+4)cur=c;
   });
-  if(SC.scrollTop+SC.clientHeight>=SC.scrollHeight-4)cur=chips.filter(function(c){return c.style.display!=="none"}).pop()||cur;
+  if(canScroll()&&SC.scrollTop+SC.clientHeight>=SC.scrollHeight-4)cur=chips.filter(function(c){return c.style.display!=="none"}).pop()||cur;
   chips.forEach(function(c){c.classList.toggle("on",c===cur)});
   if(cur){var bx=$("#chips"),l=cur.offsetLeft-bx.clientWidth/2+cur.offsetWidth/2;
     if(Math.abs(bx.scrollLeft-l)>40)bx.scrollTo({left:l,behavior:"smooth"})}
 }
 var ticking=false;
-SC.addEventListener("scroll",function(){if(!ticking){ticking=true;requestAnimationFrame(function(){spy();ticking=false})}},{passive:true});
+var onScroll=function(){if(!ticking){ticking=true;requestAnimationFrame(function(){spy();ticking=false})}};
+SC.addEventListener("scroll",onScroll,{passive:true});
+window.addEventListener("scroll",onScroll,{passive:true});
+window.addEventListener("resize",function(){fit();onScroll()});
+if(window.ResizeObserver){var ro=new ResizeObserver(function(){fit()});ro.observe(HOST);if(HOST.parentElement)ro.observe(HOST.parentElement)}
+fit();setTimeout(fit,300);setTimeout(fit,1200);setTimeout(fit,3000);
 
 /* ---------- Events ---------- */
 ROOT.addEventListener("click",function(e){
