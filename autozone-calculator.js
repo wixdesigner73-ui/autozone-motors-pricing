@@ -4,7 +4,7 @@
  * Tag name to use in Wix: autozone-calculator
  *
  * Optional attributes (set in the Wix custom element settings):
- *   whatsapp="923333053389"   WhatsApp number, digits only with country code
+ *   whatsapp="923373714808"   WhatsApp number, digits only with country code
  *   vehicle="0"               Default vehicle: 0 Hatchback, 1 Sedan, 2 SUV, 3 Full Size SUV
  */
 (function () {
@@ -235,7 +235,7 @@ class AutozoneCalculator extends HTMLElement {
     var fc = this.$('.cg[data-g="fil"] .cnt');
     if (fc) { fc.textContent = fn + " selected"; fc.classList.toggle("on", fn > 0); }
 
-    var num = (this.getAttribute("whatsapp") || "923333053389").replace(/\D/g, "");
+    var num = (this.getAttribute("whatsapp") || "923373714808").replace(/\D/g, "");
     var msg = "Hello Autozone Motors, I'd like a quote for my " + VEH[this.v].n + ":\n" + lines.map(function (l) { return "- " + l.txt; }).join("\n") + "\nEstimated total: " + money(total);
     var link = lines.length
       ? '<a class="btn" target="_blank" rel="noopener" href="https://wa.me/' + num + '?text=' + encodeURIComponent(msg) + '">SEND ESTIMATE ON WHATSAPP</a>'

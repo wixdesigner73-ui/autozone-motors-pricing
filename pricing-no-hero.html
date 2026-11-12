@@ -417,7 +417,7 @@ footer{padding:36px 0 44px;color:var(--ink-3);font-size:13px;text-align:center}
     <div class="cta">
       <a class="btn btn-primary" href="https://www.autozonemotors.com/contact-us">BOOK A SERVICE</a>
       <a class="btn btn-ghost" href="tel:+923333053389">CALL AUTOZONE MOTORS</a>
-      <a class="btn btn-ghost" id="wa" href="https://wa.me/923333053389" target="_blank" rel="noopener">WHATSAPP US</a>
+      <a class="btn btn-ghost" id="wa" href="https://wa.me/923373714808" target="_blank" rel="noopener">WHATSAPP US</a>
     </div>
     <div class="addr">51 Pine Ave, T &amp; T Aabpara Housing Society, Lahore &middot; 0333 3053389</div>
   </section>
@@ -549,7 +549,7 @@ function drawVehicles(){
 function setVehicle(i){
   st.v=i;drawVehicles();renderGroups();renderPackages();renderPPF();
   if(typeof renderCalcList==="function"){var cm=$("#cMake")?[$("#cMake").value,$("#cVeh").value]:["",""];renderCalcList();if(cm[0]){$("#cMake").value=cm[0];$("#cMake").dispatchEvent(new Event("change",{bubbles:true}));$("#cVeh").value=cm[1];renderCfItems()}}
-  $("#wa").href="https://wa.me/923333053389?text="+encodeURIComponent("Hello Autozone Motors, I'd like to check a service price for my "+VEH[i].n+".");
+  $("#wa").href="https://wa.me/923373714808?text="+encodeURIComponent("Hello Autozone Motors, I'd like to check a service price for my "+VEH[i].n+".");
 }
 
 /* ---------- Pricing groups ---------- */
@@ -739,7 +739,7 @@ function updateCalc(){
     (lines.length?'<ul>'+lines.map(function(l){return '<li><div class="l">'+l.n+(l.s?'<small>'+l.s+'</small>':'')+'</div><b>'+l.t+'</b><button type="button" data-rm="'+l.id+'" aria-label="Remove '+l.n+'">&times;</button></li>'}).join("")+'</ul>':'<div class="none">No services selected yet. Tick a service to start.</div>')+
     '<div class="tot"><span>Estimated total</span><strong>'+money(total)+'</strong></div>'+
     '<p class="fine">'+(insp?'Services priced after inspection are not included in the total. ':'')+'This is an estimate only. Final pricing may vary after inspection.</p>'+
-    '<a class="btn btn-primary" target="_blank" rel="noopener" href="https://wa.me/923333053389?text='+encodeURIComponent(msg)+'">SEND ESTIMATE ON WHATSAPP</a>'+
+    '<a class="btn btn-primary" target="_blank" rel="noopener" href="https://wa.me/923373714808?text='+encodeURIComponent(msg)+'">SEND ESTIMATE ON WHATSAPP</a>'+
     (lines.length?'<button type="button" class="clr" data-clear="1">Clear all</button>':'');
 }
 document.addEventListener("change",function(e){
@@ -820,7 +820,7 @@ $("#fType").addEventListener("change",renderFilters);
 
 /* ---------- Init ---------- */
 drawChips();drawVehicles();renderGroups();renderPackages();renderPPF();initFilters();renderCalcList();
-$("#wa").href="https://wa.me/923333053389?text="+encodeURIComponent("Hello Autozone Motors, I'd like to check a service price for my "+VEH[0].n+".");
+$("#wa").href="https://wa.me/923373714808?text="+encodeURIComponent("Hello Autozone Motors, I'd like to check a service price for my "+VEH[0].n+".");
 spy();
 })();
 </script>
